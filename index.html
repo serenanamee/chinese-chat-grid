@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>翻一張卡，開始說中文！</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <header class="page-head">
+    <h1 id="page-title" class="page-title"></h1>
+    <p id="page-subtitle" class="page-subtitle"></p>
+  </header>
+
+  <div class="toolbar" role="toolbar" aria-label="課堂互動按鈕">
+    <button id="btn-random-topic" type="button" class="tool-btn"></button>
+    <button id="btn-random-question" type="button" class="tool-btn"></button>
+    <button id="btn-restart" type="button" class="tool-btn"></button>
+  </div>
+
+  <div id="grid" class="grid" role="list" aria-label="九宮格主題"></div>
+
+  <footer class="page-foot">
+    <button id="btn-clear-all" type="button" class="danger-link"></button>
+  </footer>
+
+</div>
+
+<div id="modal-overlay" class="modal-overlay" hidden>
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-head">
+      <h2 id="modal-title" class="modal-title"></h2>
+      <button id="modal-close" type="button" class="modal-close" aria-label="關閉題目視窗">✕</button>
+    </div>
+    <div id="modal-body" class="modal-body"></div>
+  </div>
+</div>
+
+<template id="tpl-card">
+  <button type="button" class="card" role="listitem">
+    <span class="card-emoji" aria-hidden="true"></span>
+    <span class="card-title"></span>
+    <span class="card-progress"></span>
+  </button>
+</template>
+
+<template id="tpl-question-block">
+  <div class="question-block">
+    <p class="question-text"></p>
+    <div class="note-section">
+      <label class="note-label"></label>
+      <textarea class="note-textarea" rows="3"></textarea>
+      <div class="note-preview" aria-hidden="true"></div>
+      <div class="note-row">
+        <p class="note-status" aria-live="polite"></p>
+        <button type="button" class="note-clear-btn">清除這題筆記</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script src="vendor/pinyin-pro.min.js"></script>
+<script src="pinyin.js"></script>
+<script src="data.js"></script>
+<script src="notes.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
