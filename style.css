@@ -43,22 +43,23 @@ body {
 }
 
 /* ---------- 拼音 ruby ---------- */
-ruby { ruby-position: over; }
+ruby { ruby-position: over; padding-top: 0.5em; }
 rt {
-  font-size: 0.52em;
+  font-size: 0.58em;
   font-weight: 500;
   color: var(--pinyin);
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
   user-select: none;
+  margin-bottom: 0.2em;
 }
 .zh-ruby-visual { white-space: pre-wrap; }
 
 /* ---------- 頁首 ---------- */
 .page-head { text-align: center; padding: 6px 0 18px; }
 .page-title {
-  font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: 0.5px;
+  font-size: 30px; font-weight: 800; color: var(--accent); letter-spacing: 0.5px;
 }
-.page-subtitle { font-size: 14px; color: var(--ink-soft); margin-top: 8px; }
+.page-subtitle { font-size: 16px; color: var(--ink-soft); margin-top: 8px; }
 
 /* ---------- 工具列 ---------- */
 .toolbar {
@@ -109,7 +110,7 @@ rt {
 .card.is-highlighted { box-shadow: 0 0 0 4px var(--accent); }
 
 .card-emoji { font-size: 32px; }
-.card-title { font-size: 17px; font-weight: 800; text-align: center; }
+.card-title { font-size: 19px; font-weight: 800; text-align: center; }
 .card-progress {
   font-size: 12px; font-weight: 700; color: var(--ink-soft);
   background: var(--paper); border-radius: 999px; padding: 3px 10px;
@@ -163,7 +164,7 @@ rt {
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 18px; border-bottom: 1px solid var(--line);
 }
-.modal-title { font-size: 20px; font-weight: 800; color: var(--accent); }
+.modal-title { font-size: 22px; font-weight: 800; color: var(--accent); }
 .modal-close {
   font-size: 18px; line-height: 1; width: 40px; height: 40px; border-radius: 999px;
   border: none; background: var(--paper); color: var(--ink); cursor: pointer;
@@ -177,19 +178,19 @@ rt {
   padding: 14px 0; border-bottom: 1px dashed var(--line);
 }
 .question-block:last-child { border-bottom: none; }
-.question-text { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+.question-text { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
 
 .note-section { background: var(--paper); border-radius: 14px; padding: 12px 14px; }
 .note-label { display: block; font-size: 13px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px; }
 .note-textarea {
-  width: 100%; font-family: inherit; font-size: 15px; color: var(--ink);
+  width: 100%; font-family: inherit; font-size: 16px; color: var(--ink);
   border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
   resize: vertical; min-height: 64px; background: #fff;
 }
 .note-textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
 
 .note-preview {
-  margin-top: 8px; padding: 8px 10px; font-size: 15px; min-height: 0;
+  margin-top: 8px; padding: 8px 10px; font-size: 16px; min-height: 0;
   background: #fff; border-radius: 10px; border: 1px solid transparent;
 }
 .note-preview:empty { display: none; }
