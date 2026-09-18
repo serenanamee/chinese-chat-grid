@@ -128,7 +128,7 @@ console.log("== 使用者指定的 5 個測試句 ==");
 
 console.log("== 範例文章 ==");
 
-check("範例文章至少有 3 篇，且 id／label 皆唯一、非空", () => {
+check("範例文章至少有 3 篇，且 id／label／category 皆唯一、非空", () => {
   assert.ok(SAMPLES.length >= 3);
   const ids = new Set();
   SAMPLES.forEach((s) => {
@@ -136,6 +136,22 @@ check("範例文章至少有 3 篇，且 id／label 皆唯一、非空", () => {
     ids.add(s.id);
     assert.ok(s.label && s.label.trim(), "缺少 label: " + s.id);
     assert.ok(s.text && s.text.trim(), "缺少內容: " + s.id);
+    assert.ok(s.category && s.category.trim(), "缺少 category: " + s.id);
+  });
+});
+
+check("同一 category 的範例彼此相鄰（下拉選單依 optgroup 分組，需連續才不會拆成兩組）", () => {
+  const seenCategories = new Set();
+  let prevCategory = null;
+  SAMPLES.forEach((s) => {
+    if (s.category !== prevCategory) {
+      assert.ok(
+        !seenCategories.has(s.category),
+        "category 不連續，會在下拉選單產生重複的 optgroup: " + s.category
+      );
+      seenCategories.add(s.category);
+      prevCategory = s.category;
+    }
   });
 });
 

@@ -39,11 +39,20 @@
     placeholder.value = "";
     placeholder.textContent = "— 選擇範例文章 —";
     sampleSelect.appendChild(placeholder);
+
+    let currentGroup = null;
+    let currentCategory = null;
     SAMPLES.forEach((s) => {
+      if (s.category !== currentCategory) {
+        currentCategory = s.category;
+        currentGroup = document.createElement("optgroup");
+        currentGroup.label = currentCategory;
+        sampleSelect.appendChild(currentGroup);
+      }
       const opt = document.createElement("option");
       opt.value = s.id;
       opt.textContent = s.label;
-      sampleSelect.appendChild(opt);
+      currentGroup.appendChild(opt);
     });
   }
 
