@@ -1,6 +1,6 @@
 // 輕量邏輯測試（純 Node，不引入測試框架，與專案「無 build 流程」的慣例一致）。
 // 執行方式：node test/logic.test.js
-// 涵蓋：題庫完整性、拼音轉換與多音字校正、筆記儲存層的 key 隔離與進度計算。
+// 涵蓋：拼音轉換與多音字校正、草稿／字級偏好儲存層。
 
 const assert = require("assert");
 const path = require("path");
@@ -44,32 +44,8 @@ global.localStorage = new MemoryStorage();
 global.pinyinPro = require(path.join(__dirname, "..", "vendor", "pinyin-pro.min.js"));
 
 const ZhPinyin = require(path.join(__dirname, "..", "pinyin.js"));
-const ZhNotes = require(path.join(__dirname, "..", "notes.js"));
-const { TOPICS } = require(path.join(__dirname, "..", "data.js"));
-
-console.log("== 題庫完整性 ==");
-
-check("共有 9 個主題", () => {
-  assert.strictEqual(TOPICS.length, 9);
-});
-
-check("每個主題都有 5 題，共 45 題", () => {
-  const total = TOPICS.reduce((sum, t) => sum + t.questions.length, 0);
-  assert.strictEqual(total, 45);
-  TOPICS.forEach((t) => assert.strictEqual(t.questions.length, 5, t.id));
-});
-
-check("主題與問題 id 皆唯一", () => {
-  const ids = new Set();
-  TOPICS.forEach((t) => {
-    assert.ok(!ids.has(t.id), "重複的主題 id: " + t.id);
-    ids.add(t.id);
-    t.questions.forEach((q) => {
-      assert.ok(!ids.has(q.id), "重複的問題 id: " + q.id);
-      ids.add(q.id);
-    });
-  });
-});
+const ZhDraft = require(path.join(__dirname, "..", "draft-store.js"));
+const { SAMPLES } = require(path.join(__dirname, "..", "samples.js"));
 
 console.log("== 拼音轉換 ==");
 
@@ -132,8 +108,8 @@ check("renderMarkup 對空字串不報錯", () => {
   assert.strictEqual(ZhPinyin.renderMarkup(""), "");
 });
 
-check("renderMarkup 對完全不含中文的文字（如進度數字）直接輸出，不多包一層 sr-only", () => {
-  assert.strictEqual(ZhPinyin.renderMarkup("2 / 5"), "2 / 5");
+check("renderMarkup 對完全不含中文的文字直接輸出，不多包一層 sr-only", () => {
+  assert.strictEqual(ZhPinyin.renderMarkup("12 / 5"), "12 / 5");
 });
 
 console.log("== 使用者指定的 5 個測試句 ==");
@@ -150,52 +126,53 @@ console.log("== 使用者指定的 5 個測試句 ==");
   });
 });
 
-console.log("== 筆記儲存層 ==");
+console.log("== 範例文章 ==");
 
-check("get/save/clear 基本流程", () => {
-  assert.strictEqual(ZhNotes.getNote("food", "food-q1"), "");
-  ZhNotes.saveNote("food", "food-q1", "我喜歡臭豆腐");
-  assert.strictEqual(ZhNotes.getNote("food", "food-q1"), "我喜歡臭豆腐");
-  ZhNotes.clearNote("food", "food-q1");
-  assert.strictEqual(ZhNotes.getNote("food", "food-q1"), "");
-});
-
-check("不同題目的筆記不會互相覆蓋", () => {
-  ZhNotes.saveNote("food", "food-q1", "答案一");
-  ZhNotes.saveNote("food", "food-q2", "答案二");
-  ZhNotes.saveNote("travel", "travel-q1", "答案三");
-  assert.strictEqual(ZhNotes.getNote("food", "food-q1"), "答案一");
-  assert.strictEqual(ZhNotes.getNote("food", "food-q2"), "答案二");
-  assert.strictEqual(ZhNotes.getNote("travel", "travel-q1"), "答案三");
-  ZhNotes.clearNote("food", "food-q1");
-  ZhNotes.clearNote("food", "food-q2");
-  ZhNotes.clearNote("travel", "travel-q1");
-});
-
-check("儲存多行文字保留換行", () => {
-  ZhNotes.saveNote("food", "food-q1", "第一行\n第二行");
-  assert.strictEqual(ZhNotes.getNote("food", "food-q1"), "第一行\n第二行");
-  ZhNotes.clearNote("food", "food-q1");
-});
-
-check("主題進度計算正確", () => {
-  const qIds = TOPICS.find((t) => t.id === "food").questions.map((q) => q.id);
-  let progress = ZhNotes.getTopicProgress("food", qIds);
-  assert.strictEqual(progress.done, 0);
-  assert.strictEqual(progress.total, 5);
-  ZhNotes.saveNote("food", qIds[0], "answer");
-  ZhNotes.saveNote("food", qIds[1], "answer");
-  progress = ZhNotes.getTopicProgress("food", qIds);
-  assert.strictEqual(progress.done, 2);
-  qIds.forEach((id) => ZhNotes.clearNote("food", id));
-});
-
-check("清除全部筆記會清掉所有主題", () => {
-  TOPICS.forEach((t) => ZhNotes.saveNote(t.id, t.questions[0].id, "x"));
-  ZhNotes.clearAllNotes(TOPICS);
-  TOPICS.forEach((t) => {
-    assert.strictEqual(ZhNotes.getNote(t.id, t.questions[0].id), "");
+check("範例文章至少有 3 篇，且 id／label 皆唯一、非空", () => {
+  assert.ok(SAMPLES.length >= 3);
+  const ids = new Set();
+  SAMPLES.forEach((s) => {
+    assert.ok(!ids.has(s.id), "重複的範例 id: " + s.id);
+    ids.add(s.id);
+    assert.ok(s.label && s.label.trim(), "缺少 label: " + s.id);
+    assert.ok(s.text && s.text.trim(), "缺少內容: " + s.id);
   });
+});
+
+console.log("== 草稿與字級偏好儲存層 ==");
+
+check("草稿預設為空字串", () => {
+  assert.strictEqual(ZhDraft.getDraft(), "");
+});
+
+check("儲存與讀取草稿，保留換行", () => {
+  ZhDraft.saveDraft("第一行\n第二行");
+  assert.strictEqual(ZhDraft.getDraft(), "第一行\n第二行");
+  ZhDraft.saveDraft("");
+  assert.strictEqual(ZhDraft.getDraft(), "");
+});
+
+check("儲存空字串會清除草稿 key", () => {
+  ZhDraft.saveDraft("暫存內容");
+  assert.strictEqual(ZhDraft.getDraft(), "暫存內容");
+  ZhDraft.saveDraft("");
+  assert.strictEqual(ZhDraft.getDraft(), "");
+});
+
+check("字級預設為 md，儲存後可正確讀回", () => {
+  assert.strictEqual(ZhDraft.getFontSize(), "md");
+  ZhDraft.saveFontSize("lg");
+  assert.strictEqual(ZhDraft.getFontSize(), "lg");
+  ZhDraft.saveFontSize("sm");
+  assert.strictEqual(ZhDraft.getFontSize(), "sm");
+});
+
+check("字級只接受 sm／md／lg，其餘值不寫入", () => {
+  ZhDraft.saveFontSize("sm");
+  const before = ZhDraft.getFontSize();
+  const ok = ZhDraft.saveFontSize("huge");
+  assert.strictEqual(ok, false);
+  assert.strictEqual(ZhDraft.getFontSize(), before);
 });
 
 console.log("\n" + passed + " passed, " + failures + " failed");
