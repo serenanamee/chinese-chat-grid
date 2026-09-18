@@ -143,10 +143,15 @@ rt {
 .vocab-word ruby { padding-top: 0.55em; }
 .vocab-meaning { font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
 .vocab-example {
-  font-size: 15px; color: var(--ink); line-height: 2.2;
   margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
 }
-.vocab-example ruby { padding-top: 0.55em; }
+.vocab-example-label { font-size: 12px; font-weight: 700; color: var(--ink-soft); margin-bottom: 4px; }
+.vocab-example-list {
+  font-size: 15px; color: var(--ink); line-height: 2.2;
+  list-style: decimal; padding-left: 20px;
+}
+.vocab-example-list li + li { margin-top: 4px; }
+.vocab-example-list ruby { padding-top: 0.55em; }
 
 /* ---------- 手機版 ---------- */
 @media (max-width: 640px) {

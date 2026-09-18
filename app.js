@@ -104,13 +104,24 @@
       meaningEl.className = "vocab-meaning";
       setZh(meaningEl, v.meaning);
 
-      const exampleEl = document.createElement("div");
-      exampleEl.className = "vocab-example";
-      setZh(exampleEl, "例句：" + v.example);
+      const exampleWrap = document.createElement("div");
+      exampleWrap.className = "vocab-example";
+      const exampleLabel = document.createElement("div");
+      exampleLabel.className = "vocab-example-label";
+      setZh(exampleLabel, "例句");
+      const exampleList = document.createElement("ol");
+      exampleList.className = "vocab-example-list";
+      v.examples.forEach((ex) => {
+        const li = document.createElement("li");
+        setZh(li, ex);
+        exampleList.appendChild(li);
+      });
+      exampleWrap.appendChild(exampleLabel);
+      exampleWrap.appendChild(exampleList);
 
       item.appendChild(wordEl);
       item.appendChild(meaningEl);
-      item.appendChild(exampleEl);
+      item.appendChild(exampleWrap);
       vocabList.appendChild(item);
     });
   }
