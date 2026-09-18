@@ -129,6 +129,25 @@ rt {
 }
 .output-placeholder[hidden] { display: none; }
 
+/* ---------- 生字重點 ---------- */
+.vocab-section { margin-top: 28px; margin-bottom: 10px; }
+.vocab-list { display: grid; gap: 12px; }
+.vocab-item {
+  background: #fff; border: 1px solid var(--line); border-radius: 14px;
+  padding: 14px 16px; box-shadow: 0 2px 8px rgba(47, 42, 38, 0.04);
+}
+.vocab-word {
+  font-size: calc(var(--content-font-size) * 0.85); font-weight: 800; color: var(--accent);
+  margin-bottom: 6px;
+}
+.vocab-word ruby { padding-top: 0.55em; }
+.vocab-meaning { font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+.vocab-example {
+  font-size: 15px; color: var(--ink); line-height: 2.2;
+  margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line);
+}
+.vocab-example ruby { padding-top: 0.55em; }
+
 /* ---------- 手機版 ---------- */
 @media (max-width: 640px) {
   .toolbar { flex-direction: column; align-items: stretch; }

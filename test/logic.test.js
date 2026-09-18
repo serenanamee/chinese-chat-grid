@@ -155,6 +155,62 @@ check("同一 category 的範例彼此相鄰（下拉選單依 optgroup 分組�
   });
 });
 
+console.log("== 生字重點 ==");
+
+check("每篇範例至少有 4 個生字，且 word／meaning／example 皆非空", () => {
+  SAMPLES.forEach((s) => {
+    assert.ok(s.vocab && s.vocab.length >= 4, "生字太少: " + s.id);
+    s.vocab.forEach((v) => {
+      assert.ok(v.word && v.word.trim(), "缺少 word: " + s.id);
+      assert.ok(v.meaning && v.meaning.trim(), "缺少 meaning: " + s.id);
+      assert.ok(v.example && v.example.trim(), "缺少 example: " + s.id);
+    });
+  });
+});
+
+check("生字必須真的出現在該篇文章原文裡，不能對不上", () => {
+  SAMPLES.forEach((s) => {
+    s.vocab.forEach((v) => {
+      assert.ok(
+        s.text.includes(v.word),
+        "生字「" + v.word + "」沒有出現在範例「" + s.id + "」的原文中"
+      );
+    });
+  });
+});
+
+check("同一篇範例的生字彼此不重複", () => {
+  SAMPLES.forEach((s) => {
+    const words = new Set();
+    s.vocab.forEach((v) => {
+      assert.ok(!words.has(v.word), "重複的生字「" + v.word + "」在範例: " + s.id);
+      words.add(v.word);
+    });
+  });
+});
+
+check("範例句子不是直接照抄文章原句", () => {
+  SAMPLES.forEach((s) => {
+    s.vocab.forEach((v) => {
+      assert.ok(
+        !s.text.includes(v.example),
+        "範例句子跟文章原句重複，生字「" + v.word + "」在範例: " + s.id
+      );
+    });
+  });
+});
+
+check("生字與例句都能安全轉成拼音 HTML（不噴錯，且例句 HTML 內含該生字）", () => {
+  SAMPLES.forEach((s) => {
+    s.vocab.forEach((v) => {
+      const wordHtml = ZhPinyin.renderMarkup(v.word);
+      const exampleHtml = ZhPinyin.renderMarkup(v.example);
+      assert.ok(wordHtml.length > 0);
+      assert.ok(exampleHtml.includes(v.example.split("\n")[0].slice(0, 2)));
+    });
+  });
+});
+
 console.log("== 草稿與字級偏好儲存層 ==");
 
 check("草稿預設為空字串", () => {

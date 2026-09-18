@@ -13,6 +13,10 @@
   const btnCopy = document.getElementById("btn-copy");
   const btnClear = document.getElementById("btn-clear");
   const sizeBtns = Array.from(document.querySelectorAll(".size-btn"));
+  const vocabList = document.getElementById("vocab-list");
+  const vocabPlaceholder = document.getElementById("vocab-placeholder");
+
+  let loadedSample = null;
 
   function setZh(el, text) {
     el.innerHTML = ZhPinyin.renderMarkup(text);
@@ -32,6 +36,8 @@
     setZh(btnCopy, "複製純文字");
     setZh(btnClear, "清空");
     setZh(outputPlaceholder, "在上方貼上或輸入文章，這裡會即時顯示帶拼音的版本。");
+    setZh(document.getElementById("vocab-label"), "生字重點");
+    setZh(vocabPlaceholder, "選擇上方的範例文章，這裡會列出該篇建議練習的生字與例句。");
   }
 
   function renderSampleOptions() {
@@ -78,21 +84,61 @@
     output.innerHTML = ZhPinyin.renderMarkup(text);
   }
 
+  // ---------- 生字重點 ----------
+  function renderVocab(sample) {
+    vocabList.innerHTML = "";
+    if (!sample || !sample.vocab || !sample.vocab.length) {
+      vocabPlaceholder.hidden = false;
+      return;
+    }
+    vocabPlaceholder.hidden = true;
+    sample.vocab.forEach((v) => {
+      const item = document.createElement("div");
+      item.className = "vocab-item";
+
+      const wordEl = document.createElement("div");
+      wordEl.className = "vocab-word";
+      setZh(wordEl, v.word);
+
+      const meaningEl = document.createElement("div");
+      meaningEl.className = "vocab-meaning";
+      setZh(meaningEl, v.meaning);
+
+      const exampleEl = document.createElement("div");
+      exampleEl.className = "vocab-example";
+      setZh(exampleEl, "例句：" + v.example);
+
+      item.appendChild(wordEl);
+      item.appendChild(meaningEl);
+      item.appendChild(exampleEl);
+      vocabList.appendChild(item);
+    });
+  }
+
   const commit = ZhPinyin.debounce(function () {
     renderOutput();
     updateCharCount();
     ZhDraft.saveDraft(input.value);
   }, 150);
 
-  input.addEventListener("input", commit);
+  input.addEventListener("input", function () {
+    // 使用者親自打字／貼上代表內容已經跟範例文章不同了，生字清單不再對得上，先收起來。
+    if (loadedSample) {
+      loadedSample = null;
+      renderVocab(null);
+    }
+    commit();
+  });
 
   sampleSelect.addEventListener("change", function () {
     const sample = SAMPLES.find((s) => s.id === sampleSelect.value);
     sampleSelect.value = "";
     if (!sample) return;
     input.value = sample.text;
+    loadedSample = sample;
     renderOutput();
     updateCharCount();
+    renderVocab(sample);
     ZhDraft.saveDraft(input.value);
     input.focus();
   });
@@ -127,8 +173,10 @@
     const ok = window.confirm("確定要清空目前的文章嗎？此動作無法復原。");
     if (!ok) return;
     input.value = "";
+    loadedSample = null;
     renderOutput();
     updateCharCount();
+    renderVocab(null);
     ZhDraft.saveDraft("");
     input.focus();
   });
@@ -160,4 +208,5 @@
   input.value = ZhDraft.getDraft();
   renderOutput();
   updateCharCount();
+  renderVocab(null);
 })();
