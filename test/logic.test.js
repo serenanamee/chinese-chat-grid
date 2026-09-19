@@ -83,6 +83,12 @@ check("多音字校正：於 讀 yú，不是 wū（pinyin-pro 對單字「於�
   assert.ok(ZhPinyin.toPlainPinyin("將於三樓會議室召開").includes("yú"));
 });
 
+check("斷詞校正：「知道」＋「行銷部」不會被貪婪比對成「道行」（dào heng）", () => {
+  const py = ZhPinyin.toPlainPinyin("你知道行銷部那個企劃案過了嗎");
+  assert.ok(py.includes("xíng xiāo"), py);
+  assert.ok(!py.includes("heng"), py);
+});
+
 check("renderMarkup 對中文逐字輸出 ruby/rt，且提供螢幕閱讀器用的純文字（只出現一次）", () => {
   const html = ZhPinyin.renderMarkup("名人");
   assert.ok(html.includes('<ruby>名<rt>míng</rt></ruby><ruby>人<rt>rén</rt></ruby>'));
