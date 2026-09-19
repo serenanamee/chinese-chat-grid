@@ -77,6 +77,12 @@ check("一／不 變調：一個 yí gè、不是 bú shì", () => {
   assert.ok(ZhPinyin.toPlainPinyin("這不是問題").indexOf("bú shì") !== -1);
 });
 
+check("多音字校正：於 讀 yú，不是 wū（pinyin-pro 對單字「於」的預設讀音是錯的）", () => {
+  assert.strictEqual(ZhPinyin.toPlainPinyin("我畢業於企業管理系").indexOf("wū"), -1);
+  assert.ok(ZhPinyin.toPlainPinyin("我畢業於企業管理系").includes("yú"));
+  assert.ok(ZhPinyin.toPlainPinyin("將於三樓會議室召開").includes("yú"));
+});
+
 check("renderMarkup 對中文逐字輸出 ruby/rt，且提供螢幕閱讀器用的純文字（只出現一次）", () => {
   const html = ZhPinyin.renderMarkup("名人");
   assert.ok(html.includes('<ruby>名<rt>míng</rt></ruby><ruby>人<rt>rén</rt></ruby>'));
