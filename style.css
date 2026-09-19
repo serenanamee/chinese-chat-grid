@@ -39,7 +39,8 @@ body {
 }
 
 /* ---------- 拼音 ruby ---------- */
-ruby { ruby-position: over; padding-top: 0.5em; }
+/* 每個字各自一個 ruby（見 pinyin.js），這裡保留最小間距，避免相鄰字拼音黏在一起 */
+ruby { ruby-position: over; padding-top: 0.5em; margin: 0 0.02em; }
 rt {
   font-size: 0.5em;
   font-weight: 500;

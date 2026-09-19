@@ -48,16 +48,21 @@
       .replace(/'/g, "&#39;");
   }
 
-  // 把一段純中文（不含英數標點）轉成一個 <ruby> 區塊，每個字對應自己的 <rt> 拼音。
+  // 把一段純中文（不含英數標點）轉成多個 <ruby> 區塊，每個字各自獨立一個 <ruby>，
+  // 而不是共用一個 <ruby> 塞很多個 <rt>。
+  // 為什麼要每字一個 <ruby>：多字共用一個 <ruby>、裡面塞多個 <rt> 時，沒有明確的 <rb> 告訴瀏覽器
+  // 「這個 <rt> 對應哪個字」，瀏覽器只能用內建規則去猜配對，猜錯的時候相鄰兩個字的拼音會黏在一起、
+  // 中間沒有間隔（例如「站門」曾經渲染成 zhànmén 黏成一串，即使拼音資料本身是對的）。
+  // 每個字各自一個 <ruby> 之後，配對永遠是一對一、不會有歧義，瀏覽器排版時每個 <ruby> 也會各自
+  // 保留足夠寬度容納自己的拼音，相鄰字的拼音就不會互相覆蓋。
   function hanRunToRuby(run) {
     const pinyinArr = global.pinyinPro.pinyin(run, { type: "array" });
     const chars = Array.from(run);
-    let out = "<ruby>";
+    let out = "";
     for (let i = 0; i < chars.length; i++) {
       const py = pinyinArr[i] || "";
-      out += escapeHtml(chars[i]) + "<rt>" + escapeHtml(py) + "</rt>";
+      out += "<ruby>" + escapeHtml(chars[i]) + "<rt>" + escapeHtml(py) + "</rt></ruby>";
     }
-    out += "</ruby>";
     return out;
   }
 

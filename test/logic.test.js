@@ -79,9 +79,19 @@ check("一／不 變調：一個 yí gè、不是 bú shì", () => {
 
 check("renderMarkup 對中文逐字輸出 ruby/rt，且提供螢幕閱讀器用的純文字（只出現一次）", () => {
   const html = ZhPinyin.renderMarkup("名人");
-  assert.ok(html.includes('<ruby>名<rt>míng</rt>人<rt>rén</rt></ruby>'));
+  assert.ok(html.includes('<ruby>名<rt>míng</rt></ruby><ruby>人<rt>rén</rt></ruby>'));
   assert.ok(html.includes('aria-hidden="true"'));
   assert.ok(html.includes('<span class="sr-only">名人</span>'));
+});
+
+check("renderMarkup 每個字各自獨立一個 <ruby>，不是多字共用一個 <ruby> 塞多個 <rt>（避免相鄰字拼音黏在一起）", () => {
+  const html = ZhPinyin.renderMarkup("捷運站門口");
+  assert.strictEqual((html.match(/<ruby>/g) || []).length, 5);
+  assert.ok(html.includes("<ruby>捷<rt>jié</rt></ruby>"));
+  assert.ok(html.includes("<ruby>運<rt>yùn</rt></ruby>"));
+  assert.ok(html.includes("<ruby>站<rt>zhàn</rt></ruby>"));
+  assert.ok(html.includes("<ruby>門<rt>mén</rt></ruby>"));
+  assert.ok(html.includes("<ruby>口<rt>kǒu</rt></ruby>"));
 });
 
 check("renderMarkup 混合中英數標點與 emoji 不會壞掉，英文保留原樣", () => {
