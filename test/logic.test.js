@@ -95,6 +95,12 @@ check("多音字校正：嚇 讀 xià（口語「嚇一跳」），不是辭典�
   assert.ok(!py.includes("hè"), py);
 });
 
+check("多音字校正：還 讀 hái（副詞「還／也／仍然」），不是 huán（歸還）", () => {
+  const py = ZhPinyin.toPlainPinyin("我還以為這份提案還需要修改。");
+  assert.ok(py.includes("hái"), py);
+  assert.ok(!py.includes("huán"), py);
+});
+
 check("renderMarkup 對中文逐字輸出 ruby/rt，且提供螢幕閱讀器用的純文字（只出現一次）", () => {
   const html = ZhPinyin.renderMarkup("名人");
   assert.ok(html.includes('<ruby>名<rt>míng</rt></ruby><ruby>人<rt>rén</rt></ruby>'));
