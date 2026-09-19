@@ -89,6 +89,12 @@ check("斷詞校正：「知道」＋「行銷部」不會被貪婪比對成「�
   assert.ok(!py.includes("heng"), py);
 });
 
+check("多音字校正：嚇 讀 xià（口語「嚇一跳」），不是辭典正音 hè", () => {
+  const py = ZhPinyin.toPlainPinyin("我也嚇一跳，整個人都不知道要幹嘛了。");
+  assert.ok(py.includes("xià"), py);
+  assert.ok(!py.includes("hè"), py);
+});
+
 check("renderMarkup 對中文逐字輸出 ruby/rt，且提供螢幕閱讀器用的純文字（只出現一次）", () => {
   const html = ZhPinyin.renderMarkup("名人");
   assert.ok(html.includes('<ruby>名<rt>míng</rt></ruby><ruby>人<rt>rén</rt></ruby>'));
