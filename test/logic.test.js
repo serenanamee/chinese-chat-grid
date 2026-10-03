@@ -83,6 +83,14 @@ check("多音字校正：於 讀 yú，不是 wū（pinyin-pro 對單字「於�
   assert.ok(ZhPinyin.toPlainPinyin("將於三樓會議室召開").includes("yú"));
 });
 
+check("多音字校正：車 讀 chē，不是 jū（車輛的意思）", () => {
+  assert.strictEqual(ZhPinyin.toPlainPinyin("車"), "chē");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("公車業者"), "gōng chē yè zhě");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("腳踏車"), "jiǎo tà chē");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("他很機車"), "tā hěn jī chē");
+  assert.ok(ZhPinyin.toPlainPinyin("車用晶片").startsWith("chē"));
+});
+
 check("斷詞校正：「知道」＋「行銷部」不會被貪婪比對成「道行」（dào heng）", () => {
   const py = ZhPinyin.toPlainPinyin("你知道行銷部那個企劃案過了嗎");
   assert.ok(py.includes("xíng xiāo"), py);
