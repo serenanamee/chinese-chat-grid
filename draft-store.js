@@ -4,6 +4,7 @@
 (function (global) {
   const TEXT_KEY = "zhArticleReader:draftText";
   const SIZE_KEY = "zhArticleReader:fontSize";
+  const TAUGHT_KEY = "zhArticleReader:taughtIds";
   const VALID_SIZES = ["sm", "md", "lg"];
 
   function getDraft() {
@@ -48,7 +49,32 @@
     }
   }
 
-  const ZhDraft = { getDraft, saveDraft, getFontSize, saveFontSize };
+  // 已上過的範例文章 id 清單（老師打勾標記用），存成 JSON 陣列。
+  function getTaughtIds() {
+    try {
+      const parsed = JSON.parse(global.localStorage.getItem(TAUGHT_KEY) || "[]");
+      return Array.isArray(parsed) ? parsed.filter((id) => typeof id === "string") : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveTaughtIds(ids) {
+    if (!Array.isArray(ids)) return false;
+    try {
+      const clean = Array.from(new Set(ids.filter((id) => typeof id === "string" && id)));
+      if (clean.length) {
+        global.localStorage.setItem(TAUGHT_KEY, JSON.stringify(clean));
+      } else {
+        global.localStorage.removeItem(TAUGHT_KEY);
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  const ZhDraft = { getDraft, saveDraft, getFontSize, saveFontSize, getTaughtIds, saveTaughtIds };
 
   if (typeof module !== "undefined" && module.exports) {
     module.exports = ZhDraft;

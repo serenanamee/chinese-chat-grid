@@ -296,5 +296,21 @@ check("字級只接受 sm／md／lg，其餘值不寫入", () => {
   assert.strictEqual(ZhDraft.getFontSize(), before);
 });
 
+check("已上過清單預設為空陣列，儲存後可讀回且自動去除重複", () => {
+  assert.deepStrictEqual(ZhDraft.getTaughtIds(), []);
+  ZhDraft.saveTaughtIds(["inquiry", "kpop-ticket", "inquiry"]);
+  assert.deepStrictEqual(ZhDraft.getTaughtIds(), ["inquiry", "kpop-ticket"]);
+  ZhDraft.saveTaughtIds([]);
+  assert.deepStrictEqual(ZhDraft.getTaughtIds(), []);
+});
+
+check("已上過清單遇到壞掉的 localStorage 內容時回傳空陣列，不噴錯", () => {
+  localStorage.setItem("zhArticleReader:taughtIds", "{not json");
+  assert.deepStrictEqual(ZhDraft.getTaughtIds(), []);
+  localStorage.setItem("zhArticleReader:taughtIds", JSON.stringify({ a: 1 }));
+  assert.deepStrictEqual(ZhDraft.getTaughtIds(), []);
+  localStorage.removeItem("zhArticleReader:taughtIds");
+});
+
 console.log("\n" + passed + " passed, " + failures + " failed");
 process.exit(failures > 0 ? 1 : 0);

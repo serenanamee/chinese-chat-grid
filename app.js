@@ -9,7 +9,16 @@
   const output = document.getElementById("article-output");
   const outputPlaceholder = document.getElementById("output-placeholder");
   const charCount = document.getElementById("char-count");
-  const sampleSelect = document.getElementById("sample-select");
+  const picker = document.getElementById("picker");
+  const pickerBtn = document.getElementById("picker-btn");
+  const pickerBtnText = document.getElementById("picker-btn-text");
+  const pickerPanel = document.getElementById("picker-panel");
+  const pickerList = document.getElementById("picker-list");
+  const taughtProgress = document.getElementById("taught-progress");
+  const taughtReset = document.getElementById("taught-reset");
+  const currentTaught = document.getElementById("current-taught");
+  const currentTaughtBox = document.getElementById("current-taught-box");
+  const currentTaughtText = document.getElementById("current-taught-text");
   const btnCopy = document.getElementById("btn-copy");
   const btnClear = document.getElementById("btn-clear");
   const sizeBtns = Array.from(document.querySelectorAll(".size-btn"));
@@ -17,6 +26,8 @@
   const vocabPlaceholder = document.getElementById("vocab-placeholder");
 
   let loadedSample = null;
+  let taughtIds = new Set(ZhDraft.getTaughtIds());
+  const PICKER_PLACEHOLDER = "— 選擇範例文章 —";
 
   function setZh(el, text) {
     el.innerHTML = ZhPinyin.renderMarkup(text);
@@ -40,26 +51,116 @@
     setZh(vocabPlaceholder, "選擇上方的範例文章，這裡會列出該篇建議練習的生字與例句。");
   }
 
+  // ---------- 範例文章選單（可打勾標記「已上過」） ----------
+  // 原生 <select> 無法放勾選框、也不能可靠地替選項換顏色（macOS 會忽略 option 樣式），
+  // 所以改成自訂的下拉面板：點標題載入文章，點左邊勾選框標記已上過。
   function renderSampleOptions() {
-    const placeholder = document.createElement("option");
-    placeholder.value = "";
-    placeholder.textContent = "— 選擇範例文章 —";
-    sampleSelect.appendChild(placeholder);
-
-    let currentGroup = null;
+    pickerList.innerHTML = "";
     let currentCategory = null;
+    let groupEl = null;
     SAMPLES.forEach((s) => {
       if (s.category !== currentCategory) {
         currentCategory = s.category;
-        currentGroup = document.createElement("optgroup");
-        currentGroup.label = currentCategory;
-        sampleSelect.appendChild(currentGroup);
+        groupEl = document.createElement("div");
+        groupEl.className = "picker-group";
+        groupEl.setAttribute("role", "group");
+        const head = document.createElement("div");
+        head.className = "picker-group-head";
+        head.dataset.category = s.category;
+        groupEl.setAttribute("aria-label", s.category);
+        groupEl.appendChild(head);
+        pickerList.appendChild(groupEl);
       }
-      const opt = document.createElement("option");
-      opt.value = s.id;
-      opt.textContent = s.label;
-      currentGroup.appendChild(opt);
+      const row = document.createElement("div");
+      row.className = "picker-row";
+      row.dataset.id = s.id;
+
+      const box = document.createElement("input");
+      box.type = "checkbox";
+      box.className = "picker-check";
+      box.dataset.id = s.id;
+      box.setAttribute("aria-label", "標記「" + s.label + "」已上過");
+
+      const item = document.createElement("button");
+      item.type = "button";
+      item.className = "picker-item";
+      item.dataset.id = s.id;
+      item.textContent = s.label;
+
+      row.appendChild(box);
+      row.appendChild(item);
+      groupEl.appendChild(row);
     });
+    refreshTaughtUI();
+  }
+
+  function refreshTaughtUI() {
+    pickerList.querySelectorAll(".picker-row").forEach((row) => {
+      const taught = taughtIds.has(row.dataset.id);
+      row.classList.toggle("is-taught", taught);
+      row.querySelector(".picker-check").checked = taught;
+    });
+    pickerList.querySelectorAll(".picker-group").forEach((groupEl) => {
+      const rows = groupEl.querySelectorAll(".picker-row");
+      const done = groupEl.querySelectorAll(".picker-row.is-taught").length;
+      const head = groupEl.querySelector(".picker-group-head");
+      head.textContent = head.dataset.category + "　" + done + "/" + rows.length;
+      groupEl.classList.toggle("is-all-taught", done === rows.length);
+    });
+    const total = SAMPLES.length;
+    const done = SAMPLES.filter((s) => taughtIds.has(s.id)).length;
+    taughtProgress.textContent = "已上過 " + done + " / " + total;
+    taughtReset.hidden = done === 0;
+
+    if (loadedSample) {
+      const taught = taughtIds.has(loadedSample.id);
+      currentTaught.hidden = false;
+      currentTaught.classList.toggle("is-taught", taught);
+      currentTaughtBox.checked = taught;
+      currentTaughtText.textContent = taught ? "這篇已上過 ✓" : "這篇已上過";
+      pickerBtnText.textContent = loadedSample.label;
+      pickerBtn.classList.toggle("is-taught", taught);
+    } else {
+      currentTaught.hidden = true;
+      pickerBtnText.textContent = PICKER_PLACEHOLDER;
+      pickerBtn.classList.remove("is-taught");
+    }
+  }
+
+  function setTaught(id, taught) {
+    if (taught) taughtIds.add(id);
+    else taughtIds.delete(id);
+    ZhDraft.saveTaughtIds(Array.from(taughtIds));
+    refreshTaughtUI();
+  }
+
+  function openPicker() {
+    pickerPanel.hidden = false;
+    pickerBtn.setAttribute("aria-expanded", "true");
+    const target =
+      (loadedSample && pickerList.querySelector('.picker-item[data-id="' + loadedSample.id + '"]')) ||
+      pickerList.querySelector(".picker-item");
+    if (target) {
+      target.scrollIntoView({ block: "nearest" });
+      target.focus();
+    }
+  }
+
+  function closePicker(returnFocus) {
+    if (pickerPanel.hidden) return;
+    pickerPanel.hidden = true;
+    pickerBtn.setAttribute("aria-expanded", "false");
+    if (returnFocus) pickerBtn.focus();
+  }
+
+  function loadSample(sample) {
+    input.value = sample.text;
+    loadedSample = sample;
+    renderOutput();
+    updateCharCount();
+    renderVocab(sample);
+    refreshTaughtUI();
+    ZhDraft.saveDraft(input.value);
   }
 
   // ---------- 字數統計（只算中文字） ----------
@@ -137,21 +238,49 @@
     if (loadedSample) {
       loadedSample = null;
       renderVocab(null);
+      refreshTaughtUI();
     }
     commit();
   });
 
-  sampleSelect.addEventListener("change", function () {
-    const sample = SAMPLES.find((s) => s.id === sampleSelect.value);
-    sampleSelect.value = "";
+  pickerBtn.addEventListener("click", function () {
+    if (pickerPanel.hidden) openPicker();
+    else closePicker(false);
+  });
+
+  pickerList.addEventListener("click", function (e) {
+    const item = e.target.closest(".picker-item");
+    if (!item) return;
+    const sample = SAMPLES.find((s) => s.id === item.dataset.id);
     if (!sample) return;
-    input.value = sample.text;
-    loadedSample = sample;
-    renderOutput();
-    updateCharCount();
-    renderVocab(sample);
-    ZhDraft.saveDraft(input.value);
+    loadSample(sample);
+    closePicker(false);
     input.focus();
+  });
+
+  pickerList.addEventListener("change", function (e) {
+    if (!e.target.classList.contains("picker-check")) return;
+    setTaught(e.target.dataset.id, e.target.checked);
+  });
+
+  currentTaughtBox.addEventListener("change", function () {
+    if (loadedSample) setTaught(loadedSample.id, currentTaughtBox.checked);
+  });
+
+  taughtReset.addEventListener("click", function () {
+    const ok = window.confirm("確定要清除所有「已上過」的勾選嗎？");
+    if (!ok) return;
+    taughtIds = new Set();
+    ZhDraft.saveTaughtIds([]);
+    refreshTaughtUI();
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!picker.contains(e.target)) closePicker(false);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !pickerPanel.hidden) closePicker(true);
   });
 
   // ---------- 複製 / 清空 ----------
@@ -188,6 +317,7 @@
     renderOutput();
     updateCharCount();
     renderVocab(null);
+    refreshTaughtUI();
     ZhDraft.saveDraft("");
     input.focus();
   });
@@ -217,7 +347,10 @@
   renderSampleOptions();
   applyFontSize(ZhDraft.getFontSize());
   input.value = ZhDraft.getDraft();
+  // 重新整理頁面後，若草稿剛好就是某篇範例原文，恢復該篇的生字與「已上過」勾選框。
+  loadedSample = SAMPLES.find((s) => s.text === input.value) || null;
   renderOutput();
   updateCharCount();
-  renderVocab(null);
+  renderVocab(loadedSample);
+  refreshTaughtUI();
 })();
