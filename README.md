@@ -22,6 +22,25 @@
 - 支援鍵盤操作、螢幕閱讀器、`prefers-reduced-motion`
 - 手機版自動改為單欄版面
 
+## 學習筆記本（notebook.html）
+
+學生用 Google 帳號登入，把不會的字、句子或問題放上來，全班都看得到，可以互相回覆討論。
+筆記內容一樣會自動加上拼音；可以標註跟哪篇範例文章有關；發問的人或老師可以標記「已解決」或刪除；
+上方可篩選「全部／還沒解決／我發的」。老師的發言會有「老師」標籤。
+
+資料存在 Firebase（Firestore + Google 登入），**第一次使用前老師要設定一次**：
+
+1. 到 https://console.firebase.google.com 用 Google 帳號建立專案（Google Analytics 可以關掉）
+2. 左側「建構 → Authentication」→ 開始使用 →「登入方式」啟用 **Google**
+3. Authentication →「設定」→「已授權網域」新增 `serenanamee.github.io`
+4. 左側「建構 → Firestore Database」→ 建立資料庫（地區選 `asia-east1` 台灣，選「正式版模式」）
+5. Firestore →「規則」分頁：貼上 `firestore.rules` 的全部內容，把 `TEACHER_EMAIL` 換成老師登入用的 Gmail，按「發布」
+6. 專案設定（齒輪）→「你的應用程式」→ 新增網頁應用程式 `</>`，把出現的 `firebaseConfig` 那段值貼進 `firebase-config.js`
+   （`window.ZH_FIREBASE_CONFIG = { apiKey: "...", authDomain: "...", ... };`），推上 GitHub
+
+設定值本來就會公開在網頁裡，不是密碼；擋住亂改資料的是 Firestore 規則（只有登入的人能讀寫、只能刪改自己的內容，老師可以管理全部）。
+筆記本需要用 http(s) 開啟（GitHub Pages 上沒問題），直接雙擊 `notebook.html` 用 file:// 開無法登入。
+
 ## 結構
 
 - `index.html` / `style.css` / `app.js` — 網頁本體與互動邏輯
@@ -29,6 +48,10 @@
 - `draft-store.js` — 草稿、字級偏好與「已上過」清單儲存層（封裝 localStorage 存取）
 - `pinyin.js` — 拼音轉換 helper（封裝 pinyin-pro，含多音字人工校正、XSS 安全的 ruby HTML 產生）
 - `vendor/pinyin-pro.min.js` — 拼音套件（已下載至本機，鎖定版本，見 `vendor/VENDOR.md`）
+- `notebook.html` / `notebook.css` / `notebook.js` — 學習筆記本頁面（Firebase 串接與畫面）
+- `notebook-logic.js` — 筆記本的純邏輯（文字檢查、相對時間、篩選），長度上限要跟 `firestore.rules` 一致
+- `firebase-config.js` — Firebase 網頁設定（未設定時筆記本頁面會顯示提示）
+- `firestore.rules` — Firestore 安全規則（貼到 Firebase 主控台用）
 - `test/logic.test.js` — 純 Node 邏輯測試（拼音校正、範例資料、草稿／字級儲存），執行：`node test/logic.test.js`
 
 ## 拼音套件

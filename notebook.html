@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>學習筆記本｜商務中文拼音標注</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="notebook.css">
+</head>
+<body class="size-md">
+<div id="app">
+
+  <nav class="page-nav">
+    <a href="./" class="nav-link">← 回到拼音標注</a>
+  </nav>
+
+  <header class="page-head">
+    <h1 id="page-title" class="page-title"></h1>
+    <p id="page-subtitle" class="page-subtitle"></p>
+  </header>
+
+  <div class="toolbar nb-toolbar" role="toolbar" aria-label="工具列">
+    <div id="auth-box" class="auth-box">
+      <button id="btn-login" type="button" class="tool-btn tool-btn-solid" hidden>用 Google 登入</button>
+      <div id="user-chip" class="user-chip" hidden>
+        <span id="user-avatar" class="avatar" aria-hidden="true"></span>
+        <span id="user-name" class="user-name"></span>
+        <span id="user-teacher" class="teacher-badge" hidden>老師</span>
+        <button id="btn-logout" type="button" class="link-btn">登出</button>
+      </div>
+    </div>
+    <div class="action-group">
+      <button id="btn-pinyin-toggle" type="button" class="tool-btn" aria-pressed="true">隱藏拼音</button>
+    </div>
+  </div>
+
+  <div id="setup-notice" class="notice" hidden>
+    <strong>筆記本還沒接上資料庫。</strong>
+    老師需要先建立 Firebase 專案，把設定貼進 <code>firebase-config.js</code>（步驟見 README）。
+  </div>
+
+  <div id="login-notice" class="notice" hidden>
+    請先用 Google 帳號登入，登入後就能看到全班的筆記，也可以發問和回覆。
+  </div>
+
+  <section id="composer" class="composer" hidden>
+    <label for="note-input" class="section-label">哪裡不會？</label>
+    <textarea id="note-input" rows="4" maxlength="1000"
+      placeholder="可以貼上看不懂的句子、不會唸的字，或直接寫下你的問題。"></textarea>
+    <div class="composer-meta">
+      <label class="sample-pick">
+        <span>跟哪篇文章有關</span>
+        <select id="note-sample"></select>
+      </label>
+      <span id="note-count" class="char-count">0 / 1000</span>
+      <button id="btn-post" type="button" class="tool-btn tool-btn-solid">放上筆記本</button>
+    </div>
+  </section>
+
+  <section id="board" class="board" hidden>
+    <div class="filter-tabs" role="tablist" aria-label="篩選筆記">
+      <button type="button" class="filter-tab is-active" data-filter="all" role="tab" aria-selected="true">全部 <span class="filter-count"></span></button>
+      <button type="button" class="filter-tab" data-filter="open" role="tab" aria-selected="false">還沒解決 <span class="filter-count"></span></button>
+      <button type="button" class="filter-tab" data-filter="mine" role="tab" aria-selected="false">我發的 <span class="filter-count"></span></button>
+    </div>
+    <div id="note-list" class="note-list" aria-live="polite"></div>
+    <p id="note-empty" class="output-placeholder" hidden></p>
+  </section>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+</div>
+
+<script src="vendor/pinyin-pro.min.js"></script>
+<script src="pinyin.js"></script>
+<script src="samples.js"></script>
+<script src="notebook-logic.js"></script>
+<script src="firebase-config.js"></script>
+<script type="module" src="notebook.js"></script>
+</body>
+</html>

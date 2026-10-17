@@ -331,5 +331,52 @@ check("已上過清單遇到壞掉的 localStorage 內容時回傳空陣列，�
   localStorage.removeItem("zhArticleReader:taughtIds");
 });
 
+console.log("\n== 學習筆記本 ==");
+const ZhNotebook = require(path.join(__dirname, "..", "notebook-logic.js"));
+
+check("筆記文字：去頭尾空白；空白或超過上限回傳 null", () => {
+  assert.strictEqual(ZhNotebook.cleanText("  不會唸這個字  ", 1000), "不會唸這個字");
+  assert.strictEqual(ZhNotebook.cleanText("   ", 1000), null);
+  assert.strictEqual(ZhNotebook.cleanText("一".repeat(1001), 1000), null);
+  assert.strictEqual(ZhNotebook.cleanText(undefined, 1000), null);
+});
+
+check("名字：沒有名字時顯示「同學」，太長截斷到 60 字", () => {
+  assert.strictEqual(ZhNotebook.cleanName(""), "同學");
+  assert.strictEqual(ZhNotebook.cleanName(null), "同學");
+  assert.strictEqual(ZhNotebook.cleanName("x".repeat(80)).length, 60);
+});
+
+check("相對時間：剛剛／分鐘／小時／昨天／天，超過一週顯示日期", () => {
+  const now = new Date(2026, 9, 17, 12, 0, 0);
+  const ago = (ms) => new Date(now - ms);
+  assert.strictEqual(ZhNotebook.formatRelativeTime(ago(30e3), now), "剛剛");
+  assert.strictEqual(ZhNotebook.formatRelativeTime(ago(5 * 60e3), now), "5 分鐘前");
+  assert.strictEqual(ZhNotebook.formatRelativeTime(ago(3 * 3600e3), now), "3 小時前");
+  assert.strictEqual(ZhNotebook.formatRelativeTime(ago(30 * 3600e3), now), "昨天");
+  assert.strictEqual(ZhNotebook.formatRelativeTime(ago(3 * 86400e3), now), "3 天前");
+  assert.strictEqual(ZhNotebook.formatRelativeTime(new Date(2026, 8, 1), now), "2026/9/1");
+  assert.strictEqual(ZhNotebook.formatRelativeTime(null, now), "剛剛");
+});
+
+check("篩選：全部／還沒解決／我發的", () => {
+  const notes = [
+    { id: "a", authorUid: "u1", resolved: false },
+    { id: "b", authorUid: "u2", resolved: true },
+    { id: "c", authorUid: "u1", resolved: true },
+  ];
+  assert.deepStrictEqual(ZhNotebook.filterNotes(notes, "all", "u1").map((n) => n.id), ["a", "b", "c"]);
+  assert.deepStrictEqual(ZhNotebook.filterNotes(notes, "open", "u1").map((n) => n.id), ["a"]);
+  assert.deepStrictEqual(ZhNotebook.filterNotes(notes, "mine", "u1").map((n) => n.id), ["a", "c"]);
+  assert.deepStrictEqual(ZhNotebook.filterNotes(notes, "mine", null), []);
+});
+
+check("筆記長度上限跟 firestore.rules 一致", () => {
+  const rules = require("fs").readFileSync(path.join(__dirname, "..", "firestore.rules"), "utf8");
+  assert.ok(rules.includes("validText(request.resource.data.text, " + ZhNotebook.LIMITS.noteText + ")"));
+  assert.ok(rules.includes("validText(d.authorName, " + ZhNotebook.LIMITS.authorName + ")"));
+  assert.ok(rules.includes("sampleId.size() <= " + ZhNotebook.LIMITS.sampleId));
+});
+
 console.log("\n" + passed + " passed, " + failures + " failed");
 process.exit(failures > 0 ? 1 : 0);

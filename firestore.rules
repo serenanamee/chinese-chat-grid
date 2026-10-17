@@ -1,0 +1,83 @@
+// 筆記本的 Firestore 安全規則。
+// 貼到 Firebase 主控台 → Firestore Database →「規則」分頁，然後按「發布」。
+// 貼上前把下面 TEACHER_EMAIL 換成老師登入用的 Gmail（老師的 email 只放在主控台，不放進公開的 repo）。
+// 長度上限要跟 notebook-logic.js 的 LIMITS 保持一致。
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isTeacher() {
+      return signedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in ['TEACHER_EMAIL'];
+    }
+
+    function validText(t, max) {
+      return t is string && t.size() > 0 && t.size() <= max;
+    }
+
+    function validAuthor(d) {
+      return d.authorUid == request.auth.uid
+        && validText(d.authorName, 60)
+        && d.authorPhoto is string && d.authorPhoto.size() <= 500
+        && d.authorIsTeacher == isTeacher();
+    }
+
+    // 老師名單：老師第一次登入時頁面會自動在這裡建一筆自己的資料，學生端靠它顯示「老師」標籤
+    match /teachers/{uid} {
+      allow read: if signedIn();
+      allow create, update: if isTeacher() && request.auth.uid == uid;
+      allow delete: if false;
+    }
+
+    match /notes/{noteId} {
+      allow read: if signedIn();
+
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(
+             ['text', 'sampleId', 'authorUid', 'authorName', 'authorPhoto', 'authorIsTeacher',
+              'createdAt', 'lastActivityAt', 'resolved', 'replyCount'])
+        && validAuthor(request.resource.data)
+        && validText(request.resource.data.text, 1000)
+        && request.resource.data.sampleId is string && request.resource.data.sampleId.size() <= 60
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.lastActivityAt == request.time
+        && request.resource.data.resolved == false
+        && request.resource.data.replyCount == 0;
+
+      allow update: if signedIn() && (
+        // 發問的人或老師：標記已解決／改內容
+        ((resource.data.authorUid == request.auth.uid || isTeacher())
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['resolved', 'text'])
+          && request.resource.data.resolved is bool
+          && validText(request.resource.data.text, 1000))
+        ||
+        // 任何登入的人回覆時：回覆數 +1 或 -1，並更新最後活動時間
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['replyCount', 'lastActivityAt'])
+          && (request.resource.data.replyCount == resource.data.replyCount + 1
+              || request.resource.data.replyCount == resource.data.replyCount - 1)
+          && request.resource.data.replyCount >= 0
+          && request.resource.data.lastActivityAt == request.time)
+      );
+
+      allow delete: if signedIn() && (resource.data.authorUid == request.auth.uid || isTeacher());
+
+      match /replies/{replyId} {
+        allow read: if signedIn();
+        allow create: if signedIn()
+          && request.resource.data.keys().hasOnly(
+               ['text', 'authorUid', 'authorName', 'authorPhoto', 'authorIsTeacher', 'createdAt'])
+          && validAuthor(request.resource.data)
+          && validText(request.resource.data.text, 1000)
+          && request.resource.data.createdAt == request.time;
+        allow update: if false;
+        allow delete: if signedIn() && (resource.data.authorUid == request.auth.uid || isTeacher());
+      }
+    }
+  }
+}
