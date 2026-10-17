@@ -30,6 +30,7 @@
           <div class="picker-head">
             <span id="taught-progress" class="taught-progress"></span>
             <span class="picker-hint">打勾＝已上過</span>
+            <button id="sync-btn" type="button" class="sync-btn" hidden></button>
             <button id="taught-reset" type="button" class="picker-reset">全部清除</button>
           </div>
           <div id="picker-list" class="picker-list"></div>
@@ -81,5 +82,7 @@
 <script src="samples.js"></script>
 <script src="draft-store.js"></script>
 <script src="app.js"></script>
+<script src="firebase-config.js"></script>
+<script type="module" src="taught-sync.js"></script>
 </body>
 </html>

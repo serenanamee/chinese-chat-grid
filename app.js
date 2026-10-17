@@ -132,7 +132,21 @@
     else taughtIds.delete(id);
     ZhDraft.saveTaughtIds(Array.from(taughtIds));
     refreshTaughtUI();
+    if (taughtSync.onLocalChange) taughtSync.onLocalChange({ id, taught });
   }
+
+  // 給 taught-sync.js（Firebase 雲端同步）用的介面：雲端有變動時用 replaceAll 整份覆蓋畫面，
+  // 本機勾選／清除時透過 onLocalChange 通知它寫回雲端。沒登入或沒設定 Firebase 時就只存本機。
+  const taughtSync = {
+    onLocalChange: null,
+    getIds: () => Array.from(taughtIds),
+    replaceAll(ids) {
+      taughtIds = new Set(ids);
+      ZhDraft.saveTaughtIds(ids);
+      refreshTaughtUI();
+    },
+  };
+  window.ZhTaughtSync = taughtSync;
 
   function openPicker() {
     pickerPanel.hidden = false;
@@ -273,6 +287,7 @@
     taughtIds = new Set();
     ZhDraft.saveTaughtIds([]);
     refreshTaughtUI();
+    if (taughtSync.onLocalChange) taughtSync.onLocalChange({ reset: true });
   });
 
   document.addEventListener("click", function (e) {

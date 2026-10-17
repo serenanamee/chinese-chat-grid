@@ -2,8 +2,8 @@
 // 資料存在 Firebase Firestore（notes／notes/{id}/replies／teachers），誰能讀寫由 firestore.rules 把關。
 // 純邏輯（文字檢查、時間格式、篩選）在 notebook-logic.js；這裡負責 Firebase 串接與 DOM。
 
-const FIREBASE_VERSION = "10.12.2";
-const SDK = "https://www.gstatic.com/firebasejs/" + FIREBASE_VERSION + "/";
+import { hasFirebaseConfig, connectFirebase, signInWithGoogle } from "./firebase-client.js";
+
 const PINYIN_KEY = "zhArticleReader:notebookPinyin";
 const { LIMITS, cleanText, cleanName, formatRelativeTime, filterNotes } = window.ZhNotebook;
 
@@ -539,16 +539,6 @@ function resetData() {
 }
 
 // ---------- 初始化 ----------
-async function connectFirebase(config) {
-  const [appMod, authMod, fsMod] = await Promise.all([
-    import(SDK + "firebase-app.js"),
-    import(SDK + "firebase-auth.js"),
-    import(SDK + "firebase-firestore.js"),
-  ]);
-  const app = appMod.initializeApp(config);
-  return { auth: authMod.getAuth(app), authApi: authMod, db: fsMod.getFirestore(app), api: fsMod };
-}
-
 async function main() {
   ZhPinyin.init();
   setZh($("page-title"), "學習筆記本");
@@ -557,14 +547,13 @@ async function main() {
   renderSampleOptions();
   updateNoteCount();
 
-  const config = window.ZH_FIREBASE_CONFIG;
-  if (!config || !config.apiKey) {
+  if (!hasFirebaseConfig()) {
     els.setupNotice.hidden = false;
     return;
   }
 
   try {
-    state.fb = await connectFirebase(config);
+    state.fb = await connectFirebase();
   } catch (err) {
     els.setupNotice.hidden = false;
     els.setupNotice.textContent = "連不上 Firebase，請檢查網路後重新整理頁面。";
@@ -572,18 +561,11 @@ async function main() {
   }
 
   const { auth, authApi } = state.fb;
-  const provider = new authApi.GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: "select_account" });
-
   els.btnLogin.addEventListener("click", async () => {
     try {
-      await authApi.signInWithPopup(auth, provider);
+      await signInWithGoogle(state.fb);
     } catch (err) {
-      if (err && err.code === "auth/popup-blocked") {
-        await authApi.signInWithRedirect(auth, provider);
-      } else {
-        toast(errorMessage(err));
-      }
+      toast(errorMessage(err));
     }
   });
 

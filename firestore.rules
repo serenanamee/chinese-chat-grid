@@ -35,6 +35,17 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // 「已上過」勾選：老師和學生共用同一份清單，登入的人都可以勾／取消
+    match /progress/{docId} {
+      allow read: if signedIn();
+      allow write: if signedIn()
+        && docId == 'taught'
+        && request.resource.data.keys().hasOnly(['ids', 'updatedAt'])
+        && request.resource.data.ids is list
+        && request.resource.data.ids.size() <= 500
+        && request.resource.data.updatedAt == request.time;
+    }
+
     match /notes/{noteId} {
       allow read: if signedIn();
 

@@ -109,6 +109,13 @@ rt {
   background: none; border: none; text-decoration: underline; cursor: pointer; padding: 2px;
 }
 .picker-reset[hidden] { display: none; }
+.sync-btn {
+  flex-basis: 100%; text-align: left; font-family: inherit; font-size: 12px; font-weight: 700;
+  color: var(--accent); background: none; border: none; padding: 0; cursor: pointer;
+}
+.sync-btn:hover { text-decoration: underline; }
+.sync-btn.is-synced { color: var(--taught-ink); cursor: default; text-decoration: none; }
+.sync-btn[hidden] { display: none; }
 .picker-list { max-height: min(60vh, 520px); overflow-y: auto; padding: 6px 0 10px; overscroll-behavior: contain; }
 .picker-group + .picker-group { margin-top: 4px; }
 .picker-group-head {
