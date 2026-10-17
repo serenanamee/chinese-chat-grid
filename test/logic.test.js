@@ -54,6 +54,15 @@ check("一般詞語轉換正確且帶聲調符號", () => {
   assert.strictEqual(ZhPinyin.toPlainPinyin("地方"), "dì fāng");
 });
 
+check("多音字校正：搶 讀第三聲 qiǎng；著 當助詞讀輕聲 zhe，著迷 zháo、著名 zhù 不受影響", () => {
+  assert.strictEqual(ZhPinyin.toPlainPinyin("搶著付錢"), "qiǎng zhe fù qián");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("搶票"), "qiǎng piào");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("接著"), "jiē zhe");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("跟著"), "gēn zhe");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("著迷"), "zháo mí");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("著名"), "zhù míng");
+});
+
 check("多音字校正：什麼／怎麼 讀輕聲 me，不是 mó", () => {
   assert.strictEqual(ZhPinyin.toPlainPinyin("什麼"), "shén me");
   assert.strictEqual(ZhPinyin.toPlainPinyin("怎麼"), "zěn me");
