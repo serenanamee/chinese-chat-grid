@@ -75,6 +75,15 @@ check("多音字校正：分期付款／每期 的期讀第二聲 qí", () => {
   assert.strictEqual(ZhPinyin.toPlainPinyin("每期只要"), "měi qí zhǐ yào");
 });
 
+check("多音字校正：耗電量／訂購量 讀 liàng；應徵 yìng zhēng；興趣 xìng；覺得／記得 的得讀輕聲", () => {
+  assert.strictEqual(ZhPinyin.toPlainPinyin("耗電量"), "hào diàn liàng");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("最小訂購量"), "zuì xiǎo dìng gòu liàng");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("應徵"), "yìng zhēng");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("很感興趣"), "hěn gǎn xìng qù");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("我覺得"), "wǒ jué de");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("記得"), "jì de");
+});
+
 check("多音字校正：搶 讀第三聲 qiǎng；著 當助詞讀輕聲 zhe，著迷 zháo、著名 zhù 不受影響", () => {
   assert.strictEqual(ZhPinyin.toPlainPinyin("搶著付錢"), "qiǎng zhe fù qián");
   assert.strictEqual(ZhPinyin.toPlainPinyin("搶票"), "qiǎng piào");
