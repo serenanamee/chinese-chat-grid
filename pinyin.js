@@ -133,6 +133,7 @@
     "連假": "lián jià",
     "帶薪假": "dài xīn jià",
     "假日": "jià rì",
+    "一天的假": "yì tiān de jià",
   };
 
   function init() {

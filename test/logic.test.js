@@ -89,6 +89,7 @@ check("多音字校正：颱風假／請假／連假／假日 的假讀第四聲
   assert.strictEqual(ZhPinyin.toPlainPinyin("請假單"), "qǐng jià dān");
   assert.strictEqual(ZhPinyin.toPlainPinyin("連假"), "lián jià");
   assert.strictEqual(ZhPinyin.toPlainPinyin("假日加班"), "jià rì jiā bān");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("多了一天的假"), "duō le yì tiān de jià");
   assert.strictEqual(ZhPinyin.toPlainPinyin("真的假的"), "zhēn de jiǎ de");
 });
 
