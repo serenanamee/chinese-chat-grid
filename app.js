@@ -223,6 +223,10 @@
       meaningEl.className = "vocab-meaning";
       setZh(meaningEl, v.meaning);
 
+      const meaningEnEl = document.createElement("div");
+      meaningEnEl.className = "vocab-meaning-en";
+      meaningEnEl.textContent = v.meaningEn;
+
       const exampleWrap = document.createElement("div");
       exampleWrap.className = "vocab-example";
       const exampleLabel = document.createElement("div");
@@ -240,6 +244,7 @@
 
       item.appendChild(wordEl);
       item.appendChild(meaningEl);
+      item.appendChild(meaningEnEl);
       item.appendChild(exampleWrap);
       vocabList.appendChild(item);
     });

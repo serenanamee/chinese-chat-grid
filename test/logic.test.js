@@ -239,12 +239,13 @@ check("同一 category 的範例彼此相鄰（下拉選單依 optgroup 分組�
 
 console.log("== 生字重點 ==");
 
-check("每篇範例至少有 4 個生字，且 word／meaning／examples 皆非空，examples 剛好 2 句", () => {
+check("每篇範例至少有 4 個生字，且 word／meaning／meaningEn／examples 皆非空，examples 剛好 2 句", () => {
   SAMPLES.forEach((s) => {
     assert.ok(s.vocab && s.vocab.length >= 4, "生字太少: " + s.id);
     s.vocab.forEach((v) => {
       assert.ok(v.word && v.word.trim(), "缺少 word: " + s.id);
       assert.ok(v.meaning && v.meaning.trim(), "缺少 meaning: " + s.id);
+      assert.ok(v.meaningEn && v.meaningEn.trim(), "缺少 meaningEn（英文解釋）: " + s.id + " / " + v.word);
       assert.ok(Array.isArray(v.examples), "examples 必須是陣列: " + s.id + " / " + v.word);
       assert.strictEqual(v.examples.length, 2, "examples 應該剛好 2 句: " + s.id + " / " + v.word);
       v.examples.forEach((ex) => assert.ok(ex && ex.trim(), "缺少 example 內容: " + s.id + " / " + v.word));
