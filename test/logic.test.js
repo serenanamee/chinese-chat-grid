@@ -84,6 +84,14 @@ check("多音字校正：耗電量／訂購量 讀 liàng；應徵 yìng zhēng�
   assert.strictEqual(ZhPinyin.toPlainPinyin("記得"), "jì de");
 });
 
+check("多音字校正：颱風假／請假／連假／假日 的假讀第四聲 jià，真的假的仍讀 jiǎ", () => {
+  assert.strictEqual(ZhPinyin.toPlainPinyin("放颱風假"), "fàng tái fēng jià");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("請假單"), "qǐng jià dān");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("連假"), "lián jià");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("假日加班"), "jià rì jiā bān");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("真的假的"), "zhēn de jiǎ de");
+});
+
 check("多音字校正：搶 讀第三聲 qiǎng；著 當助詞讀輕聲 zhe，著迷 zháo、著名 zhù 不受影響", () => {
   assert.strictEqual(ZhPinyin.toPlainPinyin("搶著付錢"), "qiǎng zhe fù qián");
   assert.strictEqual(ZhPinyin.toPlainPinyin("搶票"), "qiǎng piào");
