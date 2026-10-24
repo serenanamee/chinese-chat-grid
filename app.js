@@ -86,6 +86,10 @@
       item.className = "picker-item";
       item.dataset.id = s.id;
       item.textContent = s.label;
+      const en = document.createElement("span");
+      en.className = "picker-item-en";
+      en.textContent = s.labelEn;
+      item.appendChild(en);
 
       row.appendChild(box);
       row.appendChild(item);

@@ -13,6 +13,7 @@ const SAMPLES = [
     id: "inquiry",
     category: "書信往來",
     label: "詢價信",
+    labelEn: "Price Inquiry Letter",
     text:
       "王經理您好，\n\n感謝貴公司上週提供的產品型錄。我們對其中的無線藍牙耳機系列很感興趣，想請教目前的批發價格與最小訂購量。若貴公司能提供樣品，我們會盡快安排測試，並回覆合作意願。\n\n期待您的回覆，謝謝！\n\n李小美 敬上",
     vocab: [
@@ -42,6 +43,7 @@ const SAMPLES = [
     id: "order-confirm",
     category: "書信往來",
     label: "訂單確認信",
+    labelEn: "Order Confirmation Letter",
     text:
       "陳小姐您好，\n\n感謝您於本月十號提交的採購單，內容為藍牙耳機兩百組，單價新台幣三百五十元，總金額七萬元整。我們已安排生產，預計十個工作天內出貨，並會提供貨運追蹤編號。若數量或交期有任何調整，請隨時與我們聯繫。\n\n祝 商祺\n業務部 林小姐",
     vocab: [
@@ -71,6 +73,7 @@ const SAMPLES = [
     id: "complaint-reply",
     category: "書信往來",
     label: "客訴回覆信",
+    labelEn: "Reply to a Customer Complaint",
     text:
       "張先生您好，\n\n非常抱歉這次的訂單延誤造成您的不便。我們已確認問題出在物流公司的分揀作業，目前貨品已重新安排出貨，預計三天內送達，並將額外贈送運費折扣券作為補償。若到貨後仍有品質問題，歡迎隨時與我們的客服團隊聯繫，我們會盡快處理。\n\n客服部 敬上",
     vocab: [
@@ -100,6 +103,7 @@ const SAMPLES = [
     id: "meeting",
     category: "會議與簡報",
     label: "會議通知",
+    labelEn: "Meeting Notice",
     text:
       "各位同事好，\n\n下週三上午十點，將於三樓會議室召開第四季業績檢討會議，請各部門主管準備上季銷售報告與下季目標提案。會議預計進行九十分鐘，請準時出席；若有特殊狀況需要請假，請提前告知人資部門。",
     vocab: [
@@ -129,6 +133,7 @@ const SAMPLES = [
     id: "presentation-open",
     category: "會議與簡報",
     label: "簡報開場白",
+    labelEn: "Presentation Opening",
     text:
       "各位長官、各位同仁，大家早安。今天很榮幸能向各位介紹我們團隊過去三個月開發的新產品。這次簡報會分成三個部分：市場分析、產品特色，以及未來的銷售計畫。整體大約需要二十分鐘，最後會保留十分鐘讓大家提問，謝謝大家撥空參加。",
     vocab: [
@@ -158,6 +163,7 @@ const SAMPLES = [
     id: "meeting-minutes",
     category: "會議與簡報",
     label: "會議紀錄",
+    labelEn: "Meeting Minutes",
     text:
       "主旨：十月份行銷會議紀錄\n\n時間：十月十五日下午兩點\n出席：陳經理、林專員、王專員\n\n一、新品上市時程：確定於十一月一日正式上市，林專員負責統籌記者會。\n二、廣告預算：本季預算調高百分之十，主要投放在社群平台。\n三、待辦事項：王專員須在下週三前提交競品分析報告。\n\n下次會議訂於十月二十九日，請各位準時出席。",
     vocab: [
@@ -187,6 +193,7 @@ const SAMPLES = [
     id: "first-meeting",
     category: "商務社交",
     label: "初次見面寒暄",
+    labelEn: "Small Talk at a First Meeting",
     text:
       "您好，很高興認識您，我是永成貿易的業務代表，姓王。這是我的名片，請多多指教。聽說貴公司最近在拓展東南亞市場，我們公司在越南和泰國都有穩定的供應鏈，如果有機會，希望未來能有合作的可能。",
     vocab: [
@@ -216,6 +223,7 @@ const SAMPLES = [
     id: "business-meal",
     category: "商務社交",
     label: "商務餐敘邀約",
+    labelEn: "Business Meal Invitation",
     text:
       "李總您好，感謝您這次特地來台北出差。不知道您明天晚上是否方便一起用餐？我們已經預訂了公司附近的餐廳，想藉這個機會更了解貴公司對這次合作案的想法，也讓雙方團隊多一點交流的時間，期待您的回覆。",
     vocab: [
@@ -245,6 +253,7 @@ const SAMPLES = [
     id: "negotiation",
     category: "談判與電話",
     label: "電話議價對話",
+    labelEn: "Price Negotiation by Phone",
     text:
       "A：您好，我是永成貿易的陳經理，想跟您討論這次訂單的報價。\nB：陳經理您好，請說，我們很樂意配合。\nA：如果訂購數量提高到一千件，貴公司是否能給我們百分之五的折扣？\nB：這個部分我需要跟主管確認，明天上班前給您答覆，方便嗎？\nA：沒問題，謝謝您的協助。",
     vocab: [
@@ -274,6 +283,7 @@ const SAMPLES = [
     id: "phone-complaint",
     category: "談判與電話",
     label: "電話客訴處理",
+    labelEn: "Handling a Phone Complaint",
     text:
       "客服：您好，這裡是客服中心，敝姓張，很高興為您服務。\n客戶：你好，我上週訂的咖啡機到現在還沒收到，已經超過約定的到貨日了。\n客服：非常抱歉造成您的不便，方便提供您的訂單編號嗎？我馬上為您查詢。\n客戶：編號是 A12345。\n客服：謝謝您。系統顯示貨品因為物流延誤，目前還在倉庫。我們會在明天優先出貨，並補償您一張兩百元的折價券。\n客戶：好，那請你們務必準時，不然我只能申請退款了。\n客服：了解，我們一定會處理好，再次向您致歉。",
     vocab: [
@@ -303,6 +313,7 @@ const SAMPLES = [
     id: "pm-progress",
     category: "專案管理",
     label: "專案進度回報",
+    labelEn: "Project Progress Report",
     text:
       "各位主管好，\n\n以下是官網改版專案本週的進度：\n\n一、設計稿已完成百分之九十，預計週五交付工程師。\n二、後台系統測試發現三個錯誤，已交給工程團隊修正中。\n三、因為廠商延遲提供素材，上線日期可能延後一週，我們正在評估影響範圍。\n\n若有任何問題，歡迎隨時與我聯絡。\n\n專案經理 張志明",
     vocab: [
@@ -332,6 +343,7 @@ const SAMPLES = [
     id: "pm-cross-dept",
     category: "專案管理",
     label: "跨部門協調信",
+    labelEn: "Cross-Department Coordination Letter",
     text:
       "業務部林經理您好，\n\n關於下個月的大型展覽，行銷部需要業務部提供三位同仁支援現場接待。由於展覽期間正好是業務部的結算週，我們理解人力可能比較吃緊，因此希望先跟您討論排班方式，例如每人只支援半天。\n\n如果方便，想約您這週四下午開個短會，一起確認分工細節。再麻煩您撥空回覆，謝謝！\n\n行銷部 陳怡君",
     vocab: [
@@ -361,6 +373,7 @@ const SAMPLES = [
     id: "mkt-live-collab",
     category: "行銷與電商",
     label: "直播帶貨合作邀約",
+    labelEn: "Livestream Sales Collaboration Invitation",
     text:
       "李小姐您好，\n\n我是好日子生活用品的行銷專員陳思妤。我們很欣賞您在直播中真誠分享產品的風格，想邀請您合作一場新品保溫杯的直播帶貨。\n\n合作方式為銷售分潤，另外也會提供專屬折扣碼給您的粉絲。我們會先寄送樣品，讓您在直播前試用。\n\n如果您有興趣，歡迎回信告訴我們您方便的檔期，我們再安排詳細的合作內容。\n\n陳思妤 敬上",
     vocab: [
@@ -390,6 +403,7 @@ const SAMPLES = [
     id: "mkt-double11",
     category: "行銷與電商",
     label: "雙十一促銷企劃",
+    labelEn: "Double 11 Promotion Plan",
     text:
       "主旨：雙十一促銷活動企劃\n\n今年雙十一，我們預計推出全館滿千折百和限時搶購兩種活動。根據去年的數據，晚上八點到十點是下單的高峰，因此限時搶購會安排在這個時段。\n\n為了提高轉換率，我們會在活動前三天發送提醒通知，並加碼社群抽獎，吸引新會員加入。客服部也需要事先增加人力，以應付大量的訂單與退換貨詢問。",
     vocab: [
@@ -419,6 +433,7 @@ const SAMPLES = [
     id: "fin-quotation",
     category: "財務與報價",
     label: "報價單說明信",
+    labelEn: "Quotation Explanation Letter",
     text:
       "張經理您好，\n\n附件是貴公司詢問的辦公椅報價單，請您參考。本次報價為每張新台幣兩千八百元，含稅含運，訂購五十張以上可享九五折優惠。\n\n報價的有效期限為三十天，付款條件為月結三十天。若需要調整規格或數量，我們可以再重新估價。\n\n如有任何疑問，歡迎來電洽詢。\n\n業務部 黃建宏",
     vocab: [
@@ -448,6 +463,7 @@ const SAMPLES = [
     id: "fin-payment-reminder",
     category: "財務與報價",
     label: "催款提醒信",
+    labelEn: "Payment Reminder Letter",
     text:
       "林小姐您好，\n\n貴公司八月份的貨款新台幣十二萬元，原訂在九月三十日付款，但目前系統尚未收到款項，想確認是否有作業上的延誤？\n\n如果已經匯款，再麻煩提供匯款單據，方便我們對帳；若有任何困難，也歡迎與我們討論分期的方式。\n\n造成您的困擾，敬請見諒，謝謝您的協助。\n\n財務部 吳佳玲",
     vocab: [
@@ -477,6 +493,7 @@ const SAMPLES = [
     id: "job-application",
     category: "求職與人資",
     label: "求職自我推薦信",
+    labelEn: "Job Application Cover Letter",
     text:
       "貴公司您好，\n\n我在貴公司官網看到業務助理的職缺，對這個職位非常感興趣。我畢業於企業管理系，曾在兩家貿易公司實習，負責客戶聯繫與訂單處理，具備基本的商用英文與中文書信寫作能力。附件是我的履歷，希望有機會能與您進一步面談，謝謝您撥冗閱讀。",
     vocab: [
@@ -506,6 +523,7 @@ const SAMPLES = [
     id: "business-trip",
     category: "求職與人資",
     label: "出差申請單",
+    labelEn: "Business Trip Request Form",
     text:
       "申請人：黃至豪\n部門：業務部\n出差地點：上海\n出差日期：十一月十二日至十一月十五日\n出差事由：拜訪客戶、洽談明年度合作合約\n交通方式：搭乘飛機往返\n備註：出差期間手機保持暢通，若有緊急事務請直接聯繫。",
     vocab: [
@@ -535,6 +553,7 @@ const SAMPLES = [
     id: "news-earnings",
     category: "新聞讀報",
     label: "財經新聞：企業營收創新高",
+    labelEn: "Finance News: Record-High Company Revenue",
     text:
       "本土半導體廠第三季營收創新高，法人喊上調評等\n\n（台北訊）國內半導體封裝廠「大立科技」今日公布第三季財報，合併營收達新台幣四十二億元，年增百分之十八，創下單季新高。公司表示，成長主要來自車用晶片訂單增加，以及東南亞新產能開出。法人分析師指出，若第四季訂單維持穩定，全年營收有機會挑戰新高紀錄，多家券商已上調評等至「買進」。",
     vocab: [
@@ -564,6 +583,7 @@ const SAMPLES = [
     id: "news-industry",
     category: "新聞讀報",
     label: "產業新聞：電動巴士汰換潮",
+    labelEn: "Industry News: The Electric Bus Replacement Wave",
     text:
       "電動巴士訂單成長，公車業者加速汰換老舊車隊\n\n（台中訊）為配合政府淨零排放政策，多家客運業者近期陸續加碼採購電動巴士。業者表示，電動巴士雖然採購成本較傳統柴油車高出三成，但長期維護與燃料費用可望大幅降低。交通部門官員指出，明年將持續提供購車補助，預計未來三年內全台電動巴士數量將成長一倍以上。",
     vocab: [
@@ -593,6 +613,7 @@ const SAMPLES = [
     id: "news-trade",
     category: "新聞讀報",
     label: "財經新聞：新關稅政策上路",
+    labelEn: "Finance News: New Tariff Policy Takes Effect",
     text:
       "新關稅政策上路，中小企業出口商喊吃不消\n\n（財經中心／綜合報導）新一輪關稅調整措施本週正式生效，部分出口至歐洲市場的傳統產業業者反映，成本壓力明顯增加。業界團體呼籲政府盡快協助業者洽談雙邊貿易協定，並提供中小企業轉型升級的補助方案。學者則認為，長期而言，企業應加速分散市場，降低對單一出口地區的依賴。",
     vocab: [
@@ -626,6 +647,7 @@ const SAMPLES = [
     id: "culture-year-end-party",
     category: "台灣職場有趣的習慣",
     label: "尾牙抽獎文化",
+    labelEn: "Year-End Party Raffle Culture",
     text:
       "每年農曆春節前，台灣公司大多會舉辦「尾牙」，感謝員工一整年的辛苦。尾牙最刺激的環節就是抽獎，獎品從腳踏車、電視到現金都有，抽到大獎時全場都會歡呼尖叫。有些公司老闆還會親自上台表演唱歌或跳舞，炒熱氣氛。對很多上班族來說，尾牙不只是聚餐，更是一整年最期待的活動之一。",
     vocab: [
@@ -655,6 +677,7 @@ const SAMPLES = [
     id: "culture-group-buy",
     category: "台灣職場有趣的習慣",
     label: "辦公室團購文化",
+    labelEn: "Office Group-Buying Culture",
     text:
       "在台灣的辦公室裡，「團購」是一種很常見的文化。只要有同事在群組裡貼出美食連結，揪大家一起訂購，通常很快就會有十幾個人跟單。從手搖飲、雞排到水果禮盒，什麼都可以團購。有些公司甚至會出現「團購達人」，專門幫大家整理表單、統計數量，成為辦公室裡的人氣王。",
     vocab: [
@@ -684,6 +707,7 @@ const SAMPLES = [
     id: "culture-typhoon-day",
     category: "台灣職場有趣的習慣",
     label: "放颱風假文化",
+    labelEn: "Typhoon Day Off Culture",
     text:
       "台灣每年夏秋之際常有颱風，如果縣市政府正式宣布停班停課，上班族就可以名正言順地在家「放颱風假」。宣布的時間通常是晚上十點或凌晨，很多人會熬夜緊盯新聞台或政府網站，只為了確認明天到底要不要上班。一旦宣布停班，社群媒體上總會瞬間充滿歡呼的貼文，彷彿多放了一天意外的連假。",
     vocab: [
@@ -713,6 +737,7 @@ const SAMPLES = [
     id: "culture-gift-exchange",
     category: "台灣職場有趣的習慣",
     label: "交換禮物文化",
+    labelEn: "Gift Exchange Culture",
     text:
       "尾牙或耶誕節聚會時，很多公司會玩「交換禮物」遊戲，規定每人準備一份不超過某個金額的禮物，用抽籤或搶奪的方式決定誰拿到誰的禮物。有趣的是，常常有人故意準備「地獄梗」禮物，像是整人小物或搞笑商品，讓現場笑聲不斷。也有同事會精心準備實用小物，希望能讓收到的人真心開心。",
     vocab: [
@@ -742,6 +767,7 @@ const SAMPLES = [
     id: "culture-responsibility-system",
     category: "台灣職場有趣的習慣",
     label: "責任制文化",
+    labelEn: "Unpaid Overtime (\"Responsibility System\") Culture",
     text:
       "台灣職場常聽到「責任制」這個詞，意思是公司認為某些職位的工作內容和時間難以計算，因此不特別支付加班費，只要把份內工作做完即可。不過實務上，很多員工反映責任制常常變成「做不完就是你的事」，導致下班時間一延再延。近年來勞動意識提升，越來越多人開始質疑責任制是否真的合理，也促使部分企業檢討加班費的計算方式。",
     vocab: [
@@ -771,6 +797,7 @@ const SAMPLES = [
     id: "culture-slacking-off",
     category: "台灣職場有趣的習慣",
     label: "摸魚文化",
+    labelEn: "Slacking Off at Work Culture",
     text:
       "「摸魚」是台灣上班族常用的說法，指的是在上班時間偷偷做和工作無關的事，像是滑手機、逛網拍或跟同事聊天。適度的摸魚被許多人視為紓解壓力的方式，但如果被主管發現，還是可能被念一頓。近幾年也出現「上班滑水」「打混」等類似說法，反映出上班族在忙碌工作中，渴望偷得片刻放鬆的心情。",
     vocab: [
@@ -800,6 +827,7 @@ const SAMPLES = [
     id: "slang-lunch-chat",
     category: "年輕人用語對話",
     label: "同事午餐聊天（流行語）",
+    labelEn: "Lunch Chat with Coworkers (Slang)",
     text:
       "A：欸，你知道行銷部那個企劃案過了嗎？\nB：過了啊，主管超級喜歡，直接說讚。\nA：真的假的，笑死，我還以為會被退回。\nB：對啊，我也嚇一跳，整個人都不知道要幹嘛了。\nA：那要不要慶祝一下？我揪大家晚上聚餐。\nB：好啊，我一定到，不會放鴿子的。",
     vocab: [
@@ -829,6 +857,7 @@ const SAMPLES = [
     id: "slang-work-life",
     category: "年輕人用語對話",
     label: "下班閒聊（流行語）",
+    labelEn: "After-Work Chat (Slang)",
     text:
       "A：今天加班到現在，整個人已經社畜了。\nB：辛苦了，要不要一起去喝一杯放鬆一下？\nA：好啊，不過我等一下要先回訊息，不然主管又要已讀不回了。\nB：哈哈，你們主管也太機車了吧。\nA：真的，不過薪水有到位，我還是會乖乖做啦。",
     vocab: [
@@ -858,6 +887,7 @@ const SAMPLES = [
     id: "slang-group-chat",
     category: "年輕人用語對話",
     label: "同事群組對話（流行語）",
+    labelEn: "Coworker Group Chat (Slang)",
     text:
       "A：明天要交報告，我現在完全是崩潰邊緣。\nB：不會吧，你不是早就寫完了？\nA：對啊，結果主管臨時說要改方向，整個大翻盤。\nB：也太雷了吧，辛苦了，要不要我幫你看一下？\nA：好喔，謝謝你，你人真的很好。",
     vocab: [
@@ -887,6 +917,7 @@ const SAMPLES = [
     id: "slang-cover-for-me",
     category: "年輕人用語對話",
     label: "開會前偷聊（流行語）",
+    labelEn: "Whispering Before a Meeting (Slang)",
     text:
       "A：欸，等一下開會你要幫我擋一下嗎？我還沒準備完。\nB：好啦好啦，母湯偷懶太明顯喔，主管會發現。\nA：我知道啦，昨天真的太忙，根本來不及做。\nB：好der，那我先幫你拖一下時間，你動作快一點。\nA：謝謝你，你真的是我的救星。",
     vocab: [
@@ -916,6 +947,7 @@ const SAMPLES = [
     id: "slang-versailles",
     category: "年輕人用語對話",
     label: "同事分享近況（凡爾賽發言）",
+    labelEn: "Coworker Life Update (Humblebragging)",
     text:
       "A：唉，最近好煩喔，老闆一直塞案子給我，薪水又加了，快忙死了。\nB：這是在凡爾賽嗎，聽起來根本是在炫耀吧。\nA：真的沒有啦，我只是單純抱怨而已。\nB：好啦好啦，那你要不要分一點案子給我，我最近閒到發慌。\nA：哈哈，好啊，剛好可以練習一下溝通。",
     vocab: [
@@ -945,6 +977,7 @@ const SAMPLES = [
     id: "slang-weary",
     category: "年輕人用語對話",
     label: "假日加班抱怨（厭世語氣）",
+    labelEn: "Complaining About Weekend Overtime (Jaded Tone)",
     text:
       "A：又要假日加班，我真的很厭世。\nB：辛苦了，這個案子到底要做到什麼時候？\nA：不知道，感覺是個無底洞，做都做不完。\nB：要不要跟主管反應一下，這樣下去大家都會爆肝。\nA：好，我等一下傳訊息跟他說，先苦後甘，忍一下就過去了。",
     vocab: [
@@ -974,6 +1007,7 @@ const SAMPLES = [
     id: "chat-weekend",
     category: "生活閒聊（口語）",
     label: "週末約出去玩",
+    labelEn: "Making Weekend Plans",
     text:
       "A：欸，這週末有空嗎？要不要一起去爬山？\nB：好啊，可是我怕太早起床，我週末都睡到自然醒欸。\nA：那不然我們下午再出發，順便去吃那家很紅的火鍋。\nB：可以啊！不過那家超難訂，我們要不要先打電話問問看？\nA：我來訂就好，你不要又遲到喔。\nB：好啦好啦，這次一定準時，遲到的話我請客。",
     vocab: [
@@ -1003,6 +1037,7 @@ const SAMPLES = [
     id: "chat-bubble-tea",
     category: "生活閒聊（口語）",
     label: "一起訂手搖飲",
+    labelEn: "Ordering Bubble Tea Together",
     text:
       "A：我好想喝珍奶喔，你要不要一起訂？\nB：好啊，我要一杯半糖少冰，珍珠加量。\nA：你也太會點了吧，我每次都只會說全糖去冰。\nB：全糖也太甜了吧，喝完會很有罪惡感欸。\nA：沒差啦，今天工作那麼累，就當作獎勵自己。\nB：說得也是，那我們湊一下，看能不能免運。",
     vocab: [
@@ -1032,6 +1067,7 @@ const SAMPLES = [
     id: "chat-new-phone",
     category: "生活閒聊（口語）",
     label: "換新手機",
+    labelEn: "Getting a New Phone",
     text:
       "A：你換新手機了喔？看起來好讚。\nB：對啊，舊的那支一直當機，我就直接衝了。\nA：很貴吧？我也想換，可是最近在省錢。\nB：還好啦，我用分期付款，每個月繳一點，比較沒壓力。\nA：拍照效果怎麼樣？\nB：超強的，夜景拍起來根本不用修圖，CP值很高。",
     vocab: [
@@ -1061,6 +1097,7 @@ const SAMPLES = [
     id: "chat-rainy-day",
     category: "生活閒聊（口語）",
     label: "下雨天抱怨",
+    labelEn: "Complaining About Rainy Days",
     text:
       "A：外面又在下大雨了，我的鞋子全濕了。\nB：真的假的，你沒帶傘喔？\nA：有啊，可是風太大，傘直接開花了。\nB：好慘喔，我今天也是擠捷運擠到懷疑人生。\nA：這種天氣真的只想在家耍廢。\nB：對啊，週末我們就宅在家追劇好了。",
     vocab: [
@@ -1090,6 +1127,7 @@ const SAMPLES = [
     id: "kpop-ticket",
     category: "韓流與 Threads 回文",
     label: "Threads：搶演唱會門票",
+    labelEn: "Threads: Scrambling for Concert Tickets",
     text:
       "【貼文】小雨：崩潰！韓團演唱會門票五分鐘就被秒殺，我連排隊頁面都進不去😭\n\n↳ 阿凱：同感，我開了三台電腦還是沒搶到，真的太扯了。\n↳ 小雨：現在網路上有人在賣黃牛票，價格翻了三倍，我寧可不去。\n↳ 美美：千萬不要買黃牛票！聽說主辦單位可能會加場，先等等消息。\n↳ 小雨：真的嗎？那我先把鬧鐘設好，這次一定要搶到本命的場！",
     vocab: [
@@ -1119,6 +1157,7 @@ const SAMPLES = [
     id: "kpop-drama",
     category: "韓流與 Threads 回文",
     label: "Threads：韓劇追劇心得",
+    labelEn: "Threads: Thoughts on a K-Drama",
     text:
       "【貼文】阿凱：昨天熬夜把那部新韓劇追完了，結局太虐了吧，哭到眼睛都腫了。\n\n↳ 小雨：拜託不要爆雷！我才看到第六集。\n↳ 阿凱：好啦好啦，我什麼都沒說。只能說男主角的演技真的很強。\n↳ 美美：我也是被朋友推坑的，本來只想看一集，結果完全停不下來。\n↳ 小雨：韓劇就是這樣，每集最後都停在最關鍵的地方，害我一直按下一集。",
     vocab: [
@@ -1148,6 +1187,7 @@ const SAMPLES = [
     id: "kpop-learn-korean",
     category: "韓流與 Threads 回文",
     label: "Threads：為了追星學韓文",
+    labelEn: "Threads: Learning Korean to Follow Idols",
     text:
       "【貼文】美美：為了看懂偶像的直播，我決定開始學韓文了！有沒有人推薦好用的 App？\n\n↳ 阿凱：我用的那個 App 每天練十分鐘，三個月就看得懂簡單的字幕了。\n↳ 美美：好厲害！你也是為了追星嗎？\n↳ 阿凱：一開始是啦，後來發現學語言很有成就感，就越學越有興趣。\n↳ 小雨：+1，追星真的是學外語最大的動力，我現在看韓國綜藝都不太需要字幕了。",
     vocab: [
@@ -1177,6 +1217,7 @@ const SAMPLES = [
     id: "kpop-birthday-cafe",
     category: "韓流與 Threads 回文",
     label: "Threads：偶像生日應援",
+    labelEn: "Threads: Idol Birthday Fan Events",
     text:
       "【貼文】小雨：今天去了偶像的生日應援咖啡廳，拿到超可愛的杯套，這趟值得了！📸\n\n↳ 美美：好羨慕！排隊要排很久嗎？\n↳ 小雨：排了快一個小時，不過現場大家都很友善，還互相交換小卡。\n↳ 阿凱：你們粉絲的行動力也太強了吧，佩服佩服。\n↳ 小雨：哈哈，為了本命什麼都可以！下次你也一起來朝聖吧。",
     vocab: [

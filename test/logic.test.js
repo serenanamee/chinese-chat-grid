@@ -207,6 +207,7 @@ check("範例文章至少有 3 篇，且 id／label／category 皆唯一、非�
     assert.ok(!ids.has(s.id), "重複的範例 id: " + s.id);
     ids.add(s.id);
     assert.ok(s.label && s.label.trim(), "缺少 label: " + s.id);
+    assert.ok(s.labelEn && s.labelEn.trim(), "缺少 labelEn（英文標題）: " + s.id);
     assert.ok(s.text && s.text.trim(), "缺少內容: " + s.id);
     assert.ok(s.category && s.category.trim(), "缺少 category: " + s.id);
   });

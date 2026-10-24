@@ -132,6 +132,7 @@ rt {
   flex: 1; font-family: inherit; font-size: 15px; color: var(--ink); text-align: left;
   background: none; border: none; padding: 8px 8px; cursor: pointer; border-radius: 8px;
 }
+.picker-item-en { margin-left: 8px; font-size: 13px; font-weight: 400; color: var(--ink-soft); }
 .picker-item:focus-visible { outline: 3px solid var(--accent); outline-offset: -2px; }
 .picker-row.is-taught { background: var(--taught-bg); }
 .picker-row.is-taught:hover { background: var(--taught-bg-hover); }
