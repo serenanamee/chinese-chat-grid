@@ -69,9 +69,10 @@ check("多音字校正：當機 的當讀第四聲 dàng", () => {
   assert.strictEqual(ZhPinyin.toPlainPinyin("電腦當機了"), "diàn nǎo dàng jī le");
 });
 
-check("多音字校正：分期付款 的期讀第二聲 qí", () => {
+check("多音字校正：分期付款／每期 的期讀第二聲 qí", () => {
   assert.strictEqual(ZhPinyin.toPlainPinyin("分期付款"), "fēn qí fù kuǎn");
   assert.strictEqual(ZhPinyin.toPlainPinyin("我用分期付款"), "wǒ yòng fēn qí fù kuǎn");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("每期只要"), "měi qí zhǐ yào");
 });
 
 check("多音字校正：搶 讀第三聲 qiǎng；著 當助詞讀輕聲 zhe，著迷 zháo、著名 zhù 不受影響", () => {
