@@ -64,6 +64,11 @@ check("多音字校正：長 在職稱／成長／長大讀 zhǎng，長期／�
   assert.strictEqual(ZhPinyin.toPlainPinyin("有助於"), "yǒu zhù yú");
 });
 
+check("多音字校正：當機 的當讀第四聲 dàng", () => {
+  assert.strictEqual(ZhPinyin.toPlainPinyin("當機"), "dàng jī");
+  assert.strictEqual(ZhPinyin.toPlainPinyin("電腦當機了"), "diàn nǎo dàng jī le");
+});
+
 check("多音字校正：搶 讀第三聲 qiǎng；著 當助詞讀輕聲 zhe，著迷 zháo、著名 zhù 不受影響", () => {
   assert.strictEqual(ZhPinyin.toPlainPinyin("搶著付錢"), "qiǎng zhe fù qián");
   assert.strictEqual(ZhPinyin.toPlainPinyin("搶票"), "qiǎng piào");
